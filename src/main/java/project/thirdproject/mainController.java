@@ -28,10 +28,10 @@ public class mainController {
                 System.out.println("half not over");
                 System.out.println(result);
             }
-        return "MultiChatMain";
+        return "product";
     }
 
-    @GetMapping("/chatting")
+//    @GetMapping("/chatting")
     public String test1(Model model, @RequestParam String id){
         String id2 = id;
         model.addAttribute("id",id2);

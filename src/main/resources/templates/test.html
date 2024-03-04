@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- SockJS 및 Stomp 라이브러리 추가 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+<body>
+<div>
+    <input type="text" id="message">
+    <button onclick="sendMessage()">전송</button>
+    <div class="col-md-12" id="chat-messages">
+
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    var chatList = null;
+
+    function setConnected(connected) {
+        $("#connect").prop("disabled", connected);
+        $("#disconnect").prop("disabled", !connected);
+        if (connected) {
+            $("#conversation").show();
+        }
+        else {
+            $("#conversation").hide();
+        }
+        $("#chatting").html("");
+    }
+
+
+ function sendChat() {
+        if ($("#message").val() != "") {
+            stompClient.send("/send/"+roomId, {},
+                JSON.stringify({
+                    'sender': sender,
+                    'senderEmail': senderEmail,
+                    'message' : $("#message").val()
+                }));
+            $("#message").val('');
+        }
+    }
+
+
+    function sendMessage() {
+        var socket = new SockJS("/ChatingServer");
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            console.log('Connected1 : ' + frame);
+            setConnected(true);
+            console.log('Connected2 : ' + frame);
+            loadChat(chatList)
+            stompClient.subscribe('/topic/chat', function (chatMessage) {
+                console.log("chatmessage:"+chatMessage);
+                var message = JSON.parse(chatMessage.body);
+                console.log("message : " + message);
+                showChat(message);
+            });
+        });
+        }
+
+        function showChat(message) {
+            var chatDiv = document.getElementById('chat');
+            var chatMessage = document.createElement('p');
+            chatMessage.textContent = message.sender + ': ' + message.message;
+            chatDiv.appendChild(chatMessage);
+        }
+    //저장된 채팅 불러오기
+    function loadChat(chatList){
+        if(chatList != null) {
+            for(chat in chatList) {
+                if (chatList[chat].senderEmail == senderEmail) {
+                    $("#chatting").append(
+                        "<div class = 'chatting_own'><tr><td>" + chatList[chat].message + "</td></tr></div>"
+                    );
+                } else {
+                    $("#chatting").append(
+                        "<div class = 'chatting'><tr><td>" + "[" + chatList[chat].sender + "] " + chatList[chat].message + "</td></tr></div>"
+                    );
+                }
+            }
+        }
+        $('.col-md-12').scrollTop($('.col-md-12')[0].scrollHeight); // 채팅이 많아질시에 자동 스크롤
+    }
+</script>
+</body>
+</html>
