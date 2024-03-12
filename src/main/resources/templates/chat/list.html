@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>채팅방 리스트</title>
+     <style>
+        .con {
+            width: 1000px;
+            margin: 0 auto;
+        }
+        .room-list > table {
+            width : 100%;
+            border-collapse : collapse;
+        }
+        .room-list > table td, .room-list>table th{
+            border : 1px solid black;
+            padding : 10px;
+        }
+    </style>
+</head>
+<body>
+<h1 class="con">채팅방 리스트</h1>
+<div class="con room-list">
+    <table>
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>방이름</th>
+                <th>생성날짜</th>
+                <th>생성자</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="list : ${chatroomList}">
+                <th th:text="${list.id}"></th>
+                <th>
+                    <a th:href="@{./room(id=${list.id})}" th:text="${list.title}"></a>
+                </th>
+                <th th:text="${#temporals.format(list.regDate, 'yyyy-MM-dd HH:mm')}"></th>
+                <th th:text="${list.member}"></th>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
