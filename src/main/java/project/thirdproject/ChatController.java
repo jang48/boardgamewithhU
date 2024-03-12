@@ -1,6 +1,12 @@
 package project.thirdproject;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.EndpointConfig;
+import jakarta.websocket.OnMessage;
+import jakarta.websocket.OnOpen;
+import jakarta.websocket.Session;
+import jakarta.websocket.server.ServerEndpoint;
 import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +31,13 @@ public class ChatController {
     public String showAdd(){
         return "chat/add";
     }
+
+//    @RequestMapping("/chat/doAddMessage")
+//    public Map doAddMessage(){
+//        // jSon 형태로 return하려면 Map으로 return 해야해
+//        chatService.addMessage();
+//    }
+
 
     @RequestMapping("/chat/list")
     public String showList(Model model){
@@ -104,5 +117,28 @@ public class ChatController {
 //        rsStr += "</script>";
 //
 //        return rsStr;
+//    }
+
+    @ServerEndpoint("/chat")
+    public class ChatEndpoint {}
+
+//    @OnOpen
+//    public void onConnect(Session session, EndpointConfig config) {
+//        this.hSession = (HttpSession)config.getUserProperties().get("hSession");
+//        clients.add(session);
+//        System.out.println(hSession.getAttribute("loginID"));
+//    }
+//
+//    @OnMessage
+//    public void onMessage(String message) {
+//        synchronized (clients) {
+//            for(Session client : clients) {
+//                try {
+//                    client.getBasicRemote().sendText(message);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
 //    }
 }

@@ -9,11 +9,38 @@
             margin: 0 auto;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        var Chat__roomId = [[${chatroom.id}]];
+      function Chat__sendMessage(body){
+             $.post('/chat/doAddMessage',{
+              roomId : Chat__roomId,
+              body : body
+              },
+              function(data){
+              },'json');
+      }
+      function submitChatMessageForm(form){
+          form.body.value = form.body.value.trim();
+
+          if(form.body.value.length == 0){
+              form.body.focus();
+              return false;
+          }
+
+          var body = form.body.value;
+
+          Chat__sendMessage(body);
+      }
+    </script>
 </head>
 <body>
 <h1 class="con">채팅방 </h1>
-<div class="con">
-
+<div class="chat-message-box con">
+    <form onsubmit="submitChatMessageForm(this); return false;">
+        <input type="text" name="body" placeholder="내용을 입력해주세요.">
+        <input type="submit" value="작성">
+    </form>
 </div>
 </body>
 </html>

@@ -32,4 +32,7 @@ public class ChatService {
     public Chatroom findById(Long id) {
         return this.chatRepository.findByid(id);
     }
+
+    public void addMessage() {
+    }
 }
