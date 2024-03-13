@@ -12,42 +12,31 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Controller
-//@ServerEndpoint("/websocket")
+@ServerEndpoint("/websocket")
 public class MessageController {
+
     private static final List<Session> session = new ArrayList<>();
 
-//    private static Set<Session> sessions = new HashSet<>();
-
-    @GetMapping("/websocket")
-    public String index() {
-        return "redirect:/test";
-    }
-
-    @GetMapping("/test")
-    public String test() {
-        return "test";
-    }
 
     @OnOpen
-    public void open(Session newUser){
+    public void open(Session newUser) {
         System.out.println("connected");
         session.add(newUser);
         System.out.println(newUser.getId());
     }
 
     @OnMessage
-    public void getMsg(Session recieveSession, String msg){
-        for(int i = 0; i < session.size(); i++){
-            if(!recieveSession.getId().equals(session.get(i).getId())){
-                try{
+    public void getMsg(Session recieveSession, String msg) {
+        for (int i = 0; i < session.size(); i++) {
+            if (!recieveSession.getId().equals(session.get(i).getId())) {
+                try {
                     session.get(i).getBasicRemote().sendText("상대 : " + msg);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             } else {
-                try{
-                    session.get(i).getBasicRemote().sendText("나 : "+ msg);
+                try {
+                    session.get(i).getBasicRemote().sendText("나 : " + msg);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

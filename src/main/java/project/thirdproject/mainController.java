@@ -8,6 +8,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class mainController {
+
+    @GetMapping("/test")
+    public String index() {
+        return "test";
+    }
+
     @GetMapping("/")
     public String test(){
             String a = "18";
