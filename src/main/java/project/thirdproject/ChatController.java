@@ -9,6 +9,8 @@ import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
 import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +28,12 @@ public class ChatController {
 
     @Autowired
     private ChatService chatService;
+
+    @MessageMapping("/chat")
+    @SendTo("/topic/messages")
+    public ChatMessage send(ChatMessage message) {
+        return message;
+    }
 
     @RequestMapping("/chat/add")
     public String showAdd(){
