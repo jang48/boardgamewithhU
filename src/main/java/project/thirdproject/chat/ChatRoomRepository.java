@@ -1,4 +1,4 @@
-package project.thirdproject;
+package project.thirdproject.chat;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Repository;

@@ -22,8 +22,11 @@ public class GamesController {
 
     @GetMapping({"/product"})
     public String showGamesInfo(Model model) throws IOException {
-        getGamesInfo();
+
         List<Games> gamesList = this.gamesService.findGames();
+        if(gamesList.size() < 0){
+            getGamesInfo();
+        }
 
         model.addAttribute("gamesList", gamesList);
         return "product";

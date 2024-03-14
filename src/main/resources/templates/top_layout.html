@@ -9,22 +9,26 @@
 <body>
 <div>
     <div style="display: flex; align-items: flex-end; justify-content: space-evenly;">
-        <div style="display : flex; flex-direction: column; align-items: center; font-weight : bold; font-size : x-large;">
+        <div style="margin-top : 30px; display : flex; flex-direction: column; align-items: center; font-weight : bold; font-size : x-large;
+            filter: drop-shadow(0 0 0.75rem #646EFF);">
             <span>BoardGames</span>
             <span>With U</span>
         </div>
         <div style="display : flex;">
-            <button onclick="product()">
-                <span class="menu">상품</span>
-            </button>
+<!--            <button onclick="product()">-->
+<!--                <span class="menu">상품</span>-->
+<!--            </button>-->
+<!--            <button>-->
+<!--                <span class="menu">중고</span>-->
+<!--            </button>-->
+<!--            <button>-->
+<!--                <span class="menu">번개</span>-->
+<!--            </button>-->
+<!--            <button>-->
+<!--                <span class="menu">고객지원</span>-->
+<!--            </button>-->
             <button>
-                <span class="menu">중고</span>
-            </button>
-            <button>
-                <span class="menu">번개</span>
-            </button>
-            <button>
-                <span class="menu">고객지원</span>
+                <span class="menu"><a th:href="@{/chat/rooms}">대화</a></span>
             </button>
         </div>
     </div>

@@ -1,6 +1,6 @@
 #wrap {
     position: relative;
-    margin: 50px auto;
+    margin: 40px auto;
     perspective: 500px;
     cursor: pointer;
 }

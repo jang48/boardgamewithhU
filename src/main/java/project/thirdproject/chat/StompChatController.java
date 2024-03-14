@@ -1,9 +1,10 @@
-package project.thirdproject;
+package project.thirdproject.chat;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import project.thirdproject.chat.ChatMessageDTO;
 
 @Controller
 @RequiredArgsConstructor

@@ -1,4 +1,4 @@
-package project.thirdproject;
+package project.thirdproject.chat;
 
 import lombok.Getter;
 import lombok.Setter;
