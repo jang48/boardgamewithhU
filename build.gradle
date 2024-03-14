@@ -46,19 +46,22 @@ dependencies {
 	// java 유사성
 	implementation group: 'org.apache.commons', name: 'commons-text', version: '1.10.0'
 
-	// websocket(채팅방)
+//	// websocket(채팅방)
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
 	// stomp-websocket DI
 	implementation group: 'org.webjars', name: 'stomp-websocket', version: '2.3.3-1'
 
 
-	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.webjars:webjars-locator-core'
 	implementation 'org.webjars:sockjs-client:1.5.1'
 	implementation 'org.webjars:stomp-websocket:2.3.4'
 	implementation 'org.webjars:bootstrap:5.2.3'
-	implementation 'org.webjars:jquery:3.6.4'
+
+	// 시큐리티
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+	implementation 'org.springframework.security:spring-security-taglibs:5.5.1'
 
 	// Log4j 2 API
 	implementation 'org.apache.logging.log4j:log4j-api:2.x.x'
@@ -68,6 +71,12 @@ dependencies {
 
 	// (Optional) Log4j 2 SLF4J Binding (if you want to use SLF4J with Log4j 2)
 	implementation 'org.apache.logging.log4j:log4j-slf4j18-impl:2.x.x'
+
+
+	runtimeOnly 'com.h2database:h2'
+	testImplementation 'org.junit.jupiter:junit-jupiter'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
 tasks.named('bootBuildImage') {

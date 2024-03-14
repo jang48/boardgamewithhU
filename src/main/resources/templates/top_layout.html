@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" th:href="@{/toplayout.css}">
+    <link rel="icon" href="/main-img.jpg">
     <title>BoardGamesWithU</title>
     <link rel="icon" href="/etc/cat.gif">
 </head>
@@ -30,6 +31,13 @@
             <button>
                 <span class="menu"><a th:href="@{/chat/rooms}">대화</a></span>
             </button>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/user/login}">로그인</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/user/signup}">회원가입</a>
+            </li>
+
         </div>
     </div>
 </div>
