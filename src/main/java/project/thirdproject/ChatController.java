@@ -1,91 +1,20 @@
 package project.thirdproject;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import jakarta.websocket.EndpointConfig;
-import jakarta.websocket.OnMessage;
-import jakarta.websocket.OnOpen;
-import jakarta.websocket.Session;
-import jakarta.websocket.server.ServerEndpoint;
-import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.math.BigInteger;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class ChatController {
+    private static final Logger log = LoggerFactory.getLogger(ChatController.class);
+    @GetMapping("/chat")
+    public String chatGET(){
 
-    @Autowired
-    private ChatService chatService;
+        log.info("@ChatController, chat GET()");
 
-    @MessageMapping("/chat")
-    @SendTo("/topic/messages")
-    public ChatMessage send(ChatMessage message) {
-        return message;
+        return "chat";
     }
-
-    @RequestMapping("/chat/add")
-    public String showAdd(){
-        return "chat/add";
-    }
-
-//    @RequestMapping("/chat/doAddMessage")
-//    public Map doAddMessage(){
-//        // jSon 형태로 return하려면 Map으로 return 해야해
-//        chatService.addMessage();
-//    }
-
-
-    @RequestMapping("/chat/list")
-    public String showList(Model model){
-        List<Chatroom> list = chatService.getList();
-        model.addAttribute("chatroomList", list);
-        return "chat/list";
-    }
-
-
-    @RequestMapping("/chat/room")
-    public String showchatRoom(@RequestParam("id") Long id,Model model){
-        Chatroom chatroom = chatService.findById(id);
-        model.addAttribute("chatroom", chatroom);
-        return "chat/room";
-    }
-
-    @RequestMapping("/chat/doAdd")
-    @ResponseBody
-    public String doAdd(@RequestParam String title, @RequestParam String passwd) {
-
-        String memberId = "1";
-
-        Random random = new Random();
-        int id =  random.nextInt(1000000);
-
-        chatService.doAdd(memberId,id,passwd);
-
-
-        String msg = id + "번 채팅방이 생성되었습니다.";
-        String rsStr = "";
-
-        rsStr += "<script>";
-        rsStr += "alert('"+msg+"');";
-        rsStr += "location.replace('./list');";
-        //rsStr += "location.href('')";
-        rsStr += "</script>";
-
-        return rsStr;
-
-        }
 
 //    @RequestMapping("/chat/doAdd")
 //    @ResponseBody
@@ -127,8 +56,8 @@ public class ChatController {
 //        return rsStr;
 //    }
 
-    @ServerEndpoint("/chat")
-    public class ChatEndpoint {}
+    // @ServerEndpoint("/chat")
+    //  public class ChatEndpoint {}
 
 //    @OnOpen
 //    public void onConnect(Session session, EndpointConfig config) {

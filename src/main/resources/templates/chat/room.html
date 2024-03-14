@@ -1,46 +1,82 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title th:text="'채팅방 - ' + ${chatroom.id} + '번 채팅방'"></title>
-    <style>
-        .con {
-            width: 1000px;
-            margin: 0 auto;
-        }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script>
-        var Chat__roomId = [[${chatroom.id}]];
-      function Chat__sendMessage(body){
-             $.post('/chat/doAddMessage',{
-              roomId : Chat__roomId,
-              body : body
-              },
-              function(data){
-              },'json');
-      }
-      function submitChatMessageForm(form){
-          form.body.value = form.body.value.trim();
-
-          if(form.body.value.length == 0){
-              form.body.focus();
-              return false;
-          }
-
-          var body = form.body.value;
-
-          Chat__sendMessage(body);
-      }
-    </script>
-</head>
+<html lang="kr">
 <body>
-<h1 class="con">채팅방 </h1>
-<div class="chat-message-box con">
-    <form onsubmit="submitChatMessageForm(this); return false;">
-        <input type="text" name="body" placeholder="내용을 입력해주세요.">
-        <input type="submit" value="작성">
-    </form>
+<div class="container">
+    <div class="col-6">
+        <h1>[[${room.name}]]</h1>
+    </div>
+    <div>
+        <div id="msgArea" class="col"></div>
+        <div class="col-6">
+            <div class="input-group mb-3">
+                <input type="text" id="msg" class="form-control" name="message">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="button-send">전송</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6"></div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script th:inline="javascript">
+    $(document).ready(function(){
+     var roomName = [[${room.name}]];
+     var roomId = [[${room.roomId}]];
+     var username = "test1";
+     var username2 = "test2";
+     console.log(roomName + ", " + roomId + ", " + username);
+
+      var sockJs = new SockJS("/stomp/chat");
+                //1. SockJS를 내부에 들고있는 stomp를 내어줌
+                var stomp = Stomp.over(sockJs);
+                stomp.connect({}, function (){
+                console.log("STOMP Connection")
+                 //4. subscribe(path, callback)으로 메세지를 받을 수 있음
+                   stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
+                       var content = JSON.parse(chat.body);
+
+                       var writer = content.writer;
+                       var message = content.message;
+                       var str = '';
+
+                       if(writer === username){
+                           str = "<div class='col-6'>";
+                           str += "<div class='alert alert-secondary'>";
+                           str += "<b>" + writer + " : " + message + "</b>";
+                           str += "</div></div>";
+<!--                           $("#msgArea").append(str);-->
+                       }
+                       else{
+                           str = "<div class='col-6'>";
+                           str += "<div class='alert alert-warning'>";
+                           str += "<b>" + writer + " : " + message + "</b>";
+                           str += "</div></div>";
+<!--                           $("#msgArea").append(str);-->
+                       }
+
+                       $("#msgArea").append(str);
+                   });
+
+                   //3. send(path, header, message)로 메세지를 보낼 수 있음
+                   stomp.send('/pub/chat/enter', {}, JSON.stringify({roomId: roomId, writer: username}))
+                });
+
+                $("#button-send").on("click", function(e){
+                    var msg = document.getElementById("msg");
+
+                    console.log(username + ":" + msg.value);
+                    stomp.send('/pub/chat/message', {}, JSON.stringify({roomId: roomId, message: msg.value, writer: username}));
+                    msg.value = '';
+                });
+
+ });
+
+</script>
+
 </body>
 </html>
