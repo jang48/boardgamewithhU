@@ -20,7 +20,7 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(UserCreateForm userCreateForm) {
         return "login_form";
     }
 
@@ -37,7 +37,7 @@ public class UserController {
         }
 
         userService.create(userCreateForm.getUsername(),
-                userCreateForm.getEmail(), userCreateForm.getPassword1());
+                userCreateForm.getEmail(), userCreateForm.getPassword1(), userCreateForm.getPhone());
 
         return "redirect:/";
     }

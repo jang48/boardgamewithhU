@@ -23,4 +23,8 @@ public class UserCreateForm{
     @Email
     private String email;
 
+    @Size(min = 10, max = 11)
+    @NotEmpty(message = "핸드폰번호는 필수항목입니다.")
+    private String phone;
+
 }
