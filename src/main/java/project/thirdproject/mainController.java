@@ -15,7 +15,7 @@ public class mainController {
     }
 
     @GetMapping("/")
-    public String test(){
+    public String test(UserCreateForm userCreateForm){
             String a = "18";
             String b = "8";
 
@@ -34,6 +34,7 @@ public class mainController {
                 System.out.println("half not over");
                 System.out.println(result);
             }
+
         return "product";
     }
 

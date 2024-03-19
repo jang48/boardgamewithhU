@@ -4,7 +4,7 @@ body{
   font-family: sans-serif;
 }
 
-.box{
+.box2{
   width: 300px;
   padding: 30px;
   position: absolute;
@@ -15,12 +15,12 @@ body{
   text-align: center;
   border-radius: 50px;
 }
-.box h1{
+.box2 h1{
   color: white;
   text-transform: uppercase;
   font-weight: 500;
 }
-.box input[type = "text"],.box input[type = "password"],.box input[type = "email"],.box input[type = "tel"]{
+.box2 input[type = "text"],.box2 input[type = "password"],.box2 input[type = "email"],.box2 input[type = "tel"]{
   border:0;
   background: none;
   display: block;
@@ -34,11 +34,11 @@ body{
   border-radius: 24px;
   transition: 0.25s;
 }
-.box input[type = "text"]:focus,.box input[type = "password"]:focus,.box input[type = "email"]:focus,.box input[type = "tel"]:focus{
+.box2 input[type = "text"]:focus,.box2 input[type = "password"]:focus,.box2 input[type = "email"]:focus,.box2 input[type = "tel"]:focus{
   width: 280px;
   border-color: #2ecc71;
 }
-.box input[type = "submit"]{
+.box2 input[type = "submit"]{
   border:0;
   background: none;
   display: block;
@@ -52,7 +52,7 @@ body{
   transition: 0.25s;
   cursor: pointer;
 }
-.box input[type = "submit"]:hover{
+.box2 input[type = "submit"]:hover{
   background: #2ecc71;
 }
 
@@ -70,6 +70,7 @@ h2{
     cursor: pointer;
     transition: box-shadow 0.2s;
 }
+
 .modal_btn:hover {
     box-shadow: 3px 4px 11px 0px #00000040;
 }
