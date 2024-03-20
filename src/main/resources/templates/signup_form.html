@@ -6,7 +6,7 @@
 </head>
 <body>
 <nav th:fragment="signup">
-    <button class="btn-open-modal2">회원가입</button>
+    <button class="button btn-open-modal2">SignUp</button>
     <dialog class="box2">
         <div style="display : flex; justify-content: flex-end;">
             <button class="btn-close-modal2" style="display : flex; width : fit-content;">X
@@ -15,71 +15,33 @@
         <form th:action="@{/user/signup}" th:object="${userCreateForm}" onsubmit="return validateForm2()" method="post">
             <h1>Sign up</h1>
             <span id="usernameError" style="color: red;"></span>
-            <input type="text" placeholder="Username">
+            <input type="text" placeholder="Username" required>
 
             <span id="emailError" style="color: red;"></span>
-            <input type="email" placeholder="Email">
+            <input type="email" placeholder="Email" required>
 
             <span id="phoneError" style="color: red;"></span>
-            <input type="tel" placeholder="Phone Number">
+            <input type="tel" placeholder="Phone Number" required>
 
             <span id="password1Error" style="color: red;"></span>
-            <input type="password"  placeholder="Password">
+            <input type="password"  placeholder="Password" required>
 
             <span id="password2Error" style="color: red;"></span>
-            <input type="password" placeholder="Password2">
+            <input type="password" placeholder="Password2" required>
             <input type="submit" name="" value="Sign up">
         </form>
     </dialog>
     <script type="text/javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
         function validateForm2() {
-            var username = document.getElementById("username").value;
-            var email = document.getElementById("email").value;
-            var phone = document.getElementById("phone").value;
             var password1 = document.getElementById("password1").value;
             var password2 = document.getElementById("password2").value;
             var isValid = true;
 
-            // 각 필드의 유효성 검사 수행
-            if (username === "") {
-                document.getElementById("usernameError").innerText = "사용자 이름을 입력하세요.";
-                isValid = false;
-            } else {
-                document.getElementById("usernameError").innerText = "";
-            }
-
-            if (email === "") {
-                document.getElementById("emailError").innerText = "이메일을 입력하세요.";
-                isValid = false;
-            } else {
-                document.getElementById("emailError").innerText = "";
-            }
-
-            if (phone === "") {
-                document.getElementById("phoneError").innerText = "전화번호를 입력하세요.";
-                isValid = false;
-            } else {
-                document.getElementById("phoneError").innerText = "";
-            }
-
-            if (password1 === "") {
-                document.getElementById("password1Error").innerText = "비밀번호를 입력하세요.";
-                isValid = false;
-            } else {
-                document.getElementById("password1Error").innerText = "";
-            }
-
-            if (password2 === "") {
-                document.getElementById("password2Error").innerText = "비밀번호 확인을 입력하세요.";
-                isValid = false;
-            } else if(password1 != password2) {
+            if(password1 != password2) {
                 document.getElementById("password2Error").innerText = "2개의 패스워드가 일치하지 않습니다.";
                 isValid = false;
-            } else {
-                document.getElementById("password2Error").innerText = "";
             }
-
             return isValid;
         }
 

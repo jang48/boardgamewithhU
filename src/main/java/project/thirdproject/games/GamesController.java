@@ -29,7 +29,7 @@ public class GamesController {
         }
 
         model.addAttribute("gamesList", gamesList);
-        return "product";
+        return "games";
     }
 
     public void getGamesInfo() throws IOException {

@@ -9,42 +9,59 @@
     <title>BoardGamesWithU</title>
     <link rel="icon" href="/etc/cat.gif">
 </head>
-<body>
-<div>
-    <div style="display: flex; align-items: flex-end; justify-content: space-evenly;">
-        <div style="margin-top : 30px; display : flex; flex-direction: column; align-items: center; font-weight : bold; font-size : x-large;
-            filter: drop-shadow(0 0 0.75rem #646EFF);">
-            <span>BoardGames</span>
-            <span>With U</span>
+<body class="back-img">
+    <div class="overlay">
+        <div style="display: flex; justify-content: center; position: absolute; width: 100%; margin-top: 30px;">
+            <div style="display: flex; align-items: center; width: 80%; background: #FFE641; padding: 16px;
+            border-radius: 57px; justify-content: space-between;">
+                <div style="align-items: center; font-weight : bold; font-size : x-large; margin-left: 30px;">
+                    <a th:href="@{/}">
+                    <span>BoardGames With U</span>
+                    </a>
+                </div>
+                <div style="display : flex; align-items: flex-end;">
+                    <button class="button" id="Home"><a th:href="@{/}">Home</a></button>
+                    <button class="button" id="Games"><a th:href="@{/product}">Games</a></button>
+                    <button class="button" id="Used Sales"><a href="#">Used Sales</a></button>
+                    <button class="button" id="Chatting"><a th:href="@{/chat/rooms}">Chatting</a></button>
+                    <nav sec:authorize="isAnonymous()" th:replace="~{login_form :: login}"></nav>
+                    <nav th:replace="~{signup_form :: signup}"></nav>
+                </div>
+            </div>
         </div>
-        <div style="display : flex;">
-<!--            <button onclick="product()">-->
-<!--                <span class="menu">상품</span>-->
-<!--            </button>-->
-<!--            <button>-->
-<!--                <span class="menu">중고</span>-->
-<!--            </button>-->
-<!--            <button>-->
-<!--                <span class="menu">번개</span>-->
-<!--            </button>-->
-<!--            <button>-->
-<!--                <span class="menu">고객지원</span>-->
-<!--            </button>-->
-            <button>
-                <span class="menu"><a th:href="@{/chat/rooms}">대화</a></span>
-            </button>
-
-                <nav sec:authorize="isAnonymous()" th:replace="~{login_form :: login}"></nav>
-                <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
-
-
-                <nav th:replace="~{signup_form :: signup}"></nav>
-<!--                <a class="nav-link" th:href="@{/user/signup}">회원가입</a>-->
-
+        <div class="wrap">
+            <div class="parent"><div class="child">안녕하세요 :)</div></div><br>
+            <div class="parent"><div class="child">BoardGamesWithU에 오신 걸</div></div><br><br>
+            <div class="parent"><div class="child">환영합니다.</div></div>
         </div>
+        <th:block layout:fragment="content"></th:block>
+
+        <script th:inline="javascript">
+            var target = document.querySelector('.menuDetail');
+            var targetId = target ? target.id : null;
+
+
+            if (targetId) {
+                var menuTabs = document.querySelectorAll('.button');
+                menuTabs.forEach(function(element) {
+                    if (element.id === targetId) {
+                        element.classList.add('active');
+                    }
+                });
+            } else {
+                var homeButton = document.getElementById('Home');
+                targetId = 'Home';
+                homeButton.classList.add('active');
+            }
+
+            var wrap = document.querySelector('.wrap');
+
+            if (targetId === 'Home') {
+                wrap.style.display = 'flex';
+            } else {
+                wrap.style.display = 'none';
+            }
+        </script>
+
     </div>
-
-    <th:block layout:fragment="content"></th:block>
-</div>
 </body>
-</html>

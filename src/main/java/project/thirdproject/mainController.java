@@ -35,7 +35,7 @@ public class mainController {
                 System.out.println(result);
             }
 
-        return "product";
+        return "top_layout";
     }
 
 //    @GetMapping("/chatting")

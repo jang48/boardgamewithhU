@@ -6,7 +6,9 @@
 </head>
 <body>
 <nav th:fragment="login">
-    <button class="btn-open-modal">로그인</button>
+    <button class="button btn-open-modal">Login</button>
+    <button sec:authorize="isAuthenticated()"><a class="nav-link" th:href="@{/user/logout}">Log Out</a></button>
+
     <dialog class="box none">
         <div style="display : flex; justify-content: flex-end;">
             <button class="btn-close-modal" onclick="closeModal()" style="display : flex; width : fit-content;">X
@@ -19,8 +21,8 @@
                 </div>
             </div>
             <h1>Login</h1>
-            <input type="text" name="username" id="username" placeholder="Username">
-            <input type="password" name="password" id="password" placeholder="Password">
+            <input type="text" name="username" id="username" placeholder="Username" required>
+            <input type="password" name="password" id="password" placeholder="Password" required>
             <input type="submit" name="" value="Login">
         </form>
     </dialog>
