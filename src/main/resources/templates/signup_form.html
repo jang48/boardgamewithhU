@@ -14,51 +14,47 @@
         </div>
         <form th:action="@{/user/signup}" th:object="${userCreateForm}" onsubmit="return validateForm2()" method="post">
             <h1>Sign up</h1>
-            <span id="usernameError" style="color: red;"></span>
-            <input type="text" placeholder="Username" required>
+            <input type="text" th:field="*{username}" placeholder="Username" required>
 
-            <span id="emailError" style="color: red;"></span>
-            <input type="email" placeholder="Email" required>
+            <input type="email" th:field="*{email}" placeholder="Email" required>
 
-            <span id="phoneError" style="color: red;"></span>
-            <input type="tel" placeholder="Phone Number" required>
+            <input type="tel" th:field="*{phone}" placeholder="Phone Number" required>
 
-            <span id="password1Error" style="color: red;"></span>
-            <input type="password"  placeholder="Password" required>
+            <input type="password" id="password1" th:field="*{password1}" placeholder="Password" required>
 
             <span id="password2Error" style="color: red;"></span>
-            <input type="password" placeholder="Password2" required>
+            <input type="password" id="password2"  th:field="*{password2}" placeholder="Password2" required>
             <input type="submit" name="" value="Sign up">
         </form>
     </dialog>
     <script type="text/javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
         function validateForm2() {
-            var password1 = document.getElementById("password1").value;
-            var password2 = document.getElementById("password2").value;
-            var isValid = true;
+           var password1 = document.getElementById("password1").value;
+           var password2 = document.getElementById("password2").value;
+           var isValid = true;
 
-            if(password1 != password2) {
-                document.getElementById("password2Error").innerText = "2개의 패스워드가 일치하지 않습니다.";
-                isValid = false;
-            }
-            return isValid;
-        }
+           if(password1 != password2) {
+               document.getElementById("password2Error").innerText = "2개의 패스워드가 일치하지 않습니다.";
+               isValid = false;
+           }
+           return isValid;
+       }
 
-        const openBtn2 = document.querySelector('.btn-open-modal2');
-        const closeBtn2 = document.querySelector('.btn-close-modal2');
-        const modal2 = document.querySelector('.box2');
+       const openBtn2 = document.querySelector('.btn-open-modal2');
+       const closeBtn2 = document.querySelector('.btn-close-modal2');
+       const modal2 = document.querySelector('.box2');
 
-        openBtn2.addEventListener('click', showModal2);
-        closeBtn2.addEventListener('click', closeModal2);
+       openBtn2.addEventListener('click', showModal2);
+       closeBtn2.addEventListener('click', closeModal2);
 
-        function showModal2() {
-            modal2.showModal();
-        }
+       function showModal2() {
+           modal2.showModal();
+       }
 
-        function closeModal2() {
-            modal2.close();
-        }
+       function closeModal2() {
+           modal2.close();
+       }
 
     </script>
 </nav>

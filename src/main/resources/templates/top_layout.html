@@ -19,12 +19,15 @@
                     <span>BoardGames With U</span>
                     </a>
                 </div>
+                <div sec:authorize="isAuthenticated()">
+                    <input type="text" th:value="${principal}" th:if="${principal != null}">
+                </div>
                 <div style="display : flex; align-items: flex-end;">
                     <button class="button" id="Home"><a th:href="@{/}">Home</a></button>
                     <button class="button" id="Games"><a th:href="@{/product}">Games</a></button>
                     <button class="button" id="Used Sales"><a href="#">Used Sales</a></button>
                     <button class="button" id="Chatting"><a th:href="@{/chat/rooms}">Chatting</a></button>
-                    <nav sec:authorize="isAnonymous()" th:replace="~{login_form :: login}"></nav>
+                    <nav th:replace="~{login_form :: login}"></nav>
                     <nav th:replace="~{signup_form :: signup}"></nav>
                 </div>
             </div>

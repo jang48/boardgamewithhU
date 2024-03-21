@@ -52,6 +52,7 @@ a {
 
 .button.active {
     color: black; /* 검정색으로 변경할 색상을 지정합니다. */
+    font-weight : bold;
 }
 
 .overlay {

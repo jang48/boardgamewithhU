@@ -14,6 +14,7 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import project.thirdproject.user.UserCreateForm;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,7 +22,7 @@ public class GamesController {
     private final GamesService gamesService;
 
     @GetMapping({"/product"})
-    public String showGamesInfo(Model model) throws IOException {
+    public String showGamesInfo(Model model, UserCreateForm userCreateForm) throws IOException {
 
         List<Games> gamesList = this.gamesService.findGames();
         if(gamesList.size() < 0){

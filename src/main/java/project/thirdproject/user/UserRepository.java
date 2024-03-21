@@ -1,4 +1,4 @@
-package project.thirdproject;
+package project.thirdproject.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,4 +1,4 @@
-package project.thirdproject;
+package project.thirdproject.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

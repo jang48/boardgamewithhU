@@ -1,4 +1,4 @@
-package project.thirdproject;
+package project.thirdproject.user;
 
 import jakarta.persistence.*;
 import lombok.Getter;

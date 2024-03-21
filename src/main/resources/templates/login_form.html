@@ -6,8 +6,8 @@
 </head>
 <body>
 <nav th:fragment="login">
-    <button class="button btn-open-modal">Login</button>
-    <button sec:authorize="isAuthenticated()"><a class="nav-link" th:href="@{/user/logout}">Log Out</a></button>
+    <button class="button btn-open-modal" sec:authorize="isAnonymous()">Login</button>
+    <button class="button" sec:authorize="isAuthenticated()"><a th:href="@{/user/logout}">Log Out</a></button>
 
     <dialog class="box none">
         <div style="display : flex; justify-content: flex-end;">
