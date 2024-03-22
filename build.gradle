@@ -63,20 +63,11 @@ dependencies {
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 	implementation 'org.springframework.security:spring-security-taglibs:5.5.1'
 
-	// Log4j 2 API
-	implementation 'org.apache.logging.log4j:log4j-api:2.x.x'
-
-	// Log4j 2 Core (implementation)
-	implementation 'org.apache.logging.log4j:log4j-core:2.x.x'
-
-	// (Optional) Log4j 2 SLF4J Binding (if you want to use SLF4J with Log4j 2)
-	implementation 'org.apache.logging.log4j:log4j-slf4j18-impl:2.x.x'
-
-
 	runtimeOnly 'com.h2database:h2'
 	testImplementation 'org.junit.jupiter:junit-jupiter'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
 }
 
 tasks.named('bootBuildImage') {
