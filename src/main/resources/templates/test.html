@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" layout:decorate="~{top_layout}">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/chat.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+</head>
+<body>
+<div layout:fragment="content" class="menuDetail"  style="display: flex; justify-content: center; width: 100%; height: 100%;">
+    <div class="scrollbar" style="margin-top : 150px; margin-bottom : 100px; display: flex; flex-wrap: wrap; width: 23%; background: #FAFAD2; padding: 16px; border-radius: 10px;">
+        <form th:action="@{/chat/room}" method="post">
+            <div th:each="room : ${list}" style="display: flex; align-items: center; justify-content: flex-start; padding : 7px;">
+                <img src="/img/icon.png" style="width : 40px; border:1.5px solid #FAFAD2; border-radius: 20px;">
+                <a th:href="@{/chat/room(roomId=${room.id})}"><span th:text="${room.name}" style="margin-left: 11px;"></span></a>
+            </div>
+            <input type="text" name="name" class="form-control">
+            <button class="btn btn-secondary">개설하기</button>
+        </form>
+    </div>
+    <div class="scrollbar" style="margin:150px 0px 100px 50px; display: flex; flex-wrap: wrap; width: 53%; background: #FAFAD2; padding: 16px; border-radius: 10px;">
+        <nav th:replace="~{chat/test2 :: chatting}"></nav>
+    </div>
+    <script th:inline="javascript">
+        var menuDetail = document.querySelector('.menuDetail');
+        menuDetail.id = 'Chatting';
+    </script>
+</div>
+</body>
+</html>
