@@ -25,7 +25,7 @@ public class GamesController {
     public String showGamesInfo(Model model, UserCreateForm userCreateForm) throws IOException {
 
         List<Games> gamesList = this.gamesService.findGames();
-        if(gamesList.size() < 0){
+        if(!(gamesList.size() > 0)){
             getGamesInfo();
         }
 

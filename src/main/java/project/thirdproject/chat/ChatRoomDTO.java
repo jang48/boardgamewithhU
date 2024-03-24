@@ -13,11 +13,13 @@ import java.util.UUID;
 public class ChatRoomDTO {
     private String roomId;
     private String name;
-    private Set<WebSocketSession> sessionSet = new HashSet<>();
+    private Set<WebSocketSession> sessions = new HashSet<>();
+    //WebSocketSession은 Spring에서 Websocket Connection이 맺어진 세션
 
     public static ChatRoomDTO create(String name){
         ChatRoomDTO room = new ChatRoomDTO();
-        room.roomId =  UUID.randomUUID().toString();
+
+        room.roomId = UUID.randomUUID().toString();
         room.name = name;
         return room;
     }

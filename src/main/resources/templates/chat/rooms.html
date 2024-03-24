@@ -5,8 +5,8 @@
             <div>
                 <ul th:each="room : ${list}">
                     <li>
-                        <input type="text" th:value="${room.roomId}" style="width : 100%;">
-                        <a th:href="@{/chat/room(roomId=${room.roomId})}">[[${room.name}]]</a>
+                        <input type="text" th:value="${room.id}" style="width : 100%;">
+                        <a th:href="@{/chat/room(roomId=${room.id})}">[[${room.name}]]</a>
                     </li>
                 </ul>
             </div>
