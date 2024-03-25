@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import project.thirdproject.chat.ChatRoom.ChatRoom;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -14,14 +16,14 @@ public class ChatMessage {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
-    Long RoomId;
-
-    private String sender;
+    Long roomId;
 
     private String writer;
 
     @Column(columnDefinition = "text")
     private String message;
+
+    private LocalDateTime time;
 
     @ManyToOne
     private ChatRoom chatRoom;

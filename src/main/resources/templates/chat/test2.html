@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="input-group-append" style="height : 20%; display: flex; flex-direction: column;">
-            <textarea id="msg" class="form-control" onKeyPress="if( event.keyCode==13 ){addFunc();}" style="height : 80%; resize: none;"></textarea>
+            <textarea id="msg" class="form-control" style="height : 80%; resize: none;"></textarea>
             <div style="display: flex; justify-content: space-between; flex-direction: row-reverse;">
                 <button class="btn btn-outline-secondary" type="button" id="button-send">전송</button>
             </div>
@@ -26,88 +26,96 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script th:inline="javascript">
+        var room = [[${room.name}]];
+        var roomNameElement = document.querySelector('.roomName');
+        var messageList =[[${messageList}]];
+        var str = '';
+        var roomId = [[${room.Id}]];
+        var username = [[${#authentication.principal.username}]];
+
         $(document).ready(function(){
-           var room = [[${room.name}]];
-           var roomNameElement = document.querySelector('.roomName');
 
            if (!(room != null && room !== '' && room !== "test")) {
                roomNameElement.innerText = '채팅방을 선택해주세요.';
            }
 
+           if(messageList != null){
+                messageList.forEach(function(message) {
+                    var dateObj = new Date(message.time);
+                    showMessage(message,dateObj,message.writer);
+                });
+           }
 
-            var roomId = [[${room.Id}]];
-            var username = [[${#authentication.principal.username}]];
+           var sockJs = new SockJS("/stomp/chat");
+           //1. SockJS를 내부에 들고있는 stomp를 내어줌
+           var stomp = Stomp.over(sockJs);
 
-            var sockJs = new SockJS("/stomp/chat");
-            //1. SockJS를 내부에 들고있는 stomp를 내어줌
-            var stomp = Stomp.over(sockJs);
-
-            //2. connection이 맺어지면 실행
-            stomp.connect({}, function (){
-               console.log("STOMP Connection")
+           //2. connection이 맺어지면 실행
+           stomp.connect({}, function (){
+           console.log("STOMP Connection")
 
                //4. subscribe(path, callback)으로 메세지를 받을 수 있음
                stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
                    var now  = new Date();
-                   let hours = now .getHours();
-                   let minutes = now .getMinutes();
-                   let ampm = hours >= 12 ? '오후' : '오전';
-                   hours = hours % 12;
-                   hours = hours ? hours : 12;
-                   minutes = minutes.toString().padStart(2, '0');
-                   let strTime = ampm + ' ' + hours + ':' + minutes;
-
                    var content = JSON.parse(chat.body);
                    var writer = content.writer;
-                   var str = '';
-
-                   if(writer === username){
-                       str = "<div class='myChat'>";
-                       str += "<div class='alert alert-secondary'>";
-                       str += "<span class='chatTime'>" + strTime + "</span>";
-                       str += "<span class='chatBox'>" + content.message + "</span>";
-                       str += "</div></div>";
-                       $("#msgArea").append(str);
-                   }
-                   else{
-                       str = "<div class='otherChat'>";
-                       str += "<div class='alert alert-warning'>";
-                       str += "<span class='otherBox'>" + content.message + "</span>";
-                       str += "<span class='otherTime'>" + strTime + "</span>";
-                       str += "</div></div>";
-                       $("#msgArea").append(str);
-                   }
-
-<!--                   $("#msgArea").append(str);-->
+                   showMessage(content,now,writer);
                });
 
                //3. send(path, header, message)로 메세지를 보낼 수 있음
                stomp.send('/pub/chat/enter', {}, JSON.stringify({roomId: roomId, writer: username}))
-            });
+           });
 
-            // 전송 버튼 클릭했을 때의 동작
-            $("#button-send").on("click", function(e) {
-                sendMessage();
-            });
+           // 전송 버튼 클릭했을 때의 동작
+           $("#button-send").on("click", function(e) {
+               sendMessage();
+           });
 
-             function sendMessage() {
-                var msg = document.getElementById("msg").value;
-                if (msg.trim() !== '') {
-                    stomp.send('/pub/chat/message', {}, JSON.stringify({roomId: roomId, message: msg, writer: username}));
-                    document.getElementById("msg").value = '';
-                } else {
-                    alert("내용을 입력해주세요");
-                }
-            }
+           function showMessage(content, nowDate, writer){
+                let hours = nowDate.getHours();
+                let minutes = nowDate.getMinutes();
+                console.log(hours,minutes);
+                let ampm = hours >= 12 ? '오후' : '오전';
+                hours = hours % 12;
+                hours = hours ? hours : 12;
+                minutes = minutes.toString().padStart(2, '0');
+                let strTime = ampm + ' ' + hours + ':' + minutes;
 
-            $('textarea').on('keydown', function(event) {
-                if (event.keyCode == 13)
-                    if (!event.shiftKey){
-                        event.preventDefault();
-                        sendMessage();
-                    }
-            });
+                if(writer === username){
+                   str = "<div class='myChat'>";
+                   str += "<div class='alert alert-secondary'>";
+                   str += "<span class='chatTime'>" + strTime + "</span>";
+                   str += "<span class='chatBox'>" + content.message + "</span>";
+                   str += "</div></div>";
+                   $("#msgArea").append(str);
+               }
+               else{
+                   str = "<div class='otherChat'>";
+                   str += "<div class='alert alert-warning'>";
+                   str += "<span class='otherBox'>" + content.message + "</span>";
+                   str += "<span class='otherTime'>" + strTime + "</span>";
+                   str += "</div></div>";
+                   $("#msgArea").append(str);
+               }
+           }
 
+           function sendMessage() {
+               var msg = document.getElementById("msg").value;
+               if (msg.trim() !== '') {
+                   stomp.send('/pub/chat/message', {}, JSON.stringify({roomId: roomId, message: msg, writer: username}));
+                   document.getElementById("msg").value = '';
+               } else {
+                   alert("내용을 입력해주세요");
+               }
+           }
+
+           $('textarea').on('keydown', function(event) {
+               if (event.keyCode == 13)
+                   if (!event.shiftKey){
+                       event.preventDefault();
+                       sendMessage();
+                   }
+           });
         });
     </script>
 </nav>

@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import project.thirdproject.chat.ChatMessage.ChatMessage;
+import project.thirdproject.chat.ChatMessage.ChatMessageService;
 import project.thirdproject.user.SiteUser;
 import project.thirdproject.user.UserCreateForm;
 
@@ -16,6 +18,8 @@ import java.util.List;
 public class ChatRoomController {
 
     private final ChatRoomService chatRoomService;
+
+    private final ChatMessageService messageService;
     @GetMapping(value = "/rooms")
     public String rooms(Principal principal, UserCreateForm userCreateForm, Model model){
         principal.getName();
@@ -37,6 +41,9 @@ public class ChatRoomController {
 
         ChatRoom chatRoom = this.chatRoomService.findByRoomId(Long.valueOf(roomId));
         model.addAttribute("room", chatRoom);
+
+        List<ChatMessage> messageList = this.messageService.findChatMessageByRoomId(Long.valueOf(roomId));
+        model.addAttribute("messageList", messageList);
         return "test";
     }
 
