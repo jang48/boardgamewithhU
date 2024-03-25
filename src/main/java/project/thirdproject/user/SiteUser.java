@@ -3,6 +3,7 @@ package project.thirdproject.user;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -21,4 +22,7 @@ public class SiteUser {
 
     @Column(unique = true)
     private String email;
+
+    @ColumnDefault("/img/user_default.png")
+    private String img;
 }

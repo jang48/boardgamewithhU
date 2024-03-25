@@ -39,10 +39,16 @@
                roomNameElement.innerText = '채팅방을 선택해주세요.';
            }
 
+           if (!writer || !username || writer.trim() === '' || username.trim() === '') {
+                console.error('Writer or username is empty.');
+                return;
+            }
+
            if(messageList != null){
                 messageList.forEach(function(message) {
-                    var dateObj = new Date(message.time);
-                    showMessage(message,dateObj,message.writer);
+                    var date = new Date(message.time);
+                    getStrTime(date);
+                    showMessage(message,date,message.writer);
                 });
            }
 
@@ -56,9 +62,10 @@
 
                //4. subscribe(path, callback)으로 메세지를 받을 수 있음
                stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
-                   var now  = new Date();
+                   var now  = new Date(content.time);
                    var content = JSON.parse(chat.body);
                    var writer = content.writer;
+                   getStrTime(now);
                    showMessage(content,now,writer);
                });
 
@@ -71,7 +78,7 @@
                sendMessage();
            });
 
-           function showMessage(content, nowDate, writer){
+           function getStrTime(Date nowDate){
                 let hours = nowDate.getHours();
                 let minutes = nowDate.getMinutes();
                 console.log(hours,minutes);
@@ -80,7 +87,9 @@
                 hours = hours ? hours : 12;
                 minutes = minutes.toString().padStart(2, '0');
                 let strTime = ampm + ' ' + hours + ':' + minutes;
+           }
 
+           function showMessage(content, writer){
                 if(writer === username){
                    str = "<div class='myChat'>";
                    str += "<div class='alert alert-secondary'>";

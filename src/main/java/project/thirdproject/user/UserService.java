@@ -17,8 +17,13 @@ public class UserService {
         user.setEmail(email);
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         user.setPassword(passwordEncoder.encode(password));
+        user.setImg("/img/user_default.png");
         user.setPhone(phone);
         this.userRepository.save(user);
         return user;
+    }
+
+    public SiteUser findUser(String username){
+       return this.userRepository.findByusername(username).get();
     }
 }

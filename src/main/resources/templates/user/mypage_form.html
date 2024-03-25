@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko" layout:decorate="~{top_layout}">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/chat.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+</head>
+<body>
+<div layout:fragment="content" class="menuDetail"  style="display: flex; justify-content: center; width: 100%; height: 100%;">
+    <div class="scrollbar" style="margin-top : 150px; margin-bottom : 100px; display: flex; flex-wrap: wrap; width: 23%; background: #FAFAD2; padding: 16px; border-radius: 10px;">
+        <img th:src="${user.img}" alt="내 프로필" style="width: 50px; height: 50px;">
+        <img src="/img/privacy.png" alt="보안" style="width: 50px; height: 50px;">
+        <img src="/img/shop.png" alt="중고판매" style="width: 50px; height: 50px;">
+    </div>
+    <div class="scrollbar" style="margin:150px 0px 100px 50px; display: flex; flex-wrap: wrap; width: 53%; background: #FAFAD2; padding: 16px; border-radius: 10px;">
+
+    </div>
+    <script th:inline="javascript">
+        var menuDetail = document.querySelector('.menuDetail');
+        menuDetail.id = 'MyPage';
+    </script>
+</div>
+</body>
+</html>
