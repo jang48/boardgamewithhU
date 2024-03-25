@@ -3,10 +3,7 @@ package project.thirdproject.chat.ChatRoom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import project.thirdproject.user.SiteUser;
 import project.thirdproject.user.UserCreateForm;
 
@@ -24,7 +21,22 @@ public class ChatRoomController {
         principal.getName();
         List<ChatRoom> chatRoomList = this.chatRoomService.findAllRooms();
         model.addAttribute("list",chatRoomList);
+
+        ChatRoom room = new ChatRoom();
+        room.setName("test");
+        model.addAttribute("room", room);
 //        return "chat/rooms";
+        return "test";
+    }
+
+    @GetMapping(value = "/rooms/detail/{roomId}")
+    public String rooms(Principal principal, @PathVariable("roomId") String roomId, UserCreateForm userCreateForm, Model model){
+        principal.getName();
+        List<ChatRoom> chatRoomList = this.chatRoomService.findAllRooms();
+        model.addAttribute("list",chatRoomList);
+
+        ChatRoom chatRoom = this.chatRoomService.findByRoomId(Long.valueOf(roomId));
+        model.addAttribute("room", chatRoom);
         return "test";
     }
 
@@ -38,9 +50,7 @@ public class ChatRoomController {
 
     //채팅방 조회
     @GetMapping("/room")
-    public String getRoom(Principal principal, String roomId, Model model){
-        ChatRoom chatRoom = this.chatRoomService.findByRoomId(Long.valueOf(roomId));
-        model.addAttribute("room", chatRoom);
-        return "redirect:/chat/rooms";
+    public String getRoom(String roomId){
+        return "redirect:/chat/rooms/detail/"+roomId;
     }
 }

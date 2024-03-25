@@ -1,0 +1,45 @@
+.myChat {
+  margin-top: 10px;
+  margin-right: 20px;
+  text-align: right;
+}
+
+.chatBox {
+  display: inline-block;
+  position: relative;
+  background-color: #F49A56;
+  border-radius: 20px;
+  color: #fff;
+  padding: 7px 12px;
+  margin-bottom: 10px;
+  max-width: 230px;
+}
+
+.chatTime {
+  margin-right: 6px;
+  color: #171717;
+  font-size: 11px;
+}
+
+.otherChat {
+  margin-top: 10px;
+  margin-right: 20px;
+  text-align: left;
+}
+
+.otherBox {
+  display: inline-block;
+  position: relative;
+  background-color: #FAFABE;
+  border-radius: 20px;
+  color: #00;
+  padding: 7px 12px;
+  margin-bottom: 10px;
+  max-width: 230px;
+}
+
+.otherTime {
+  margin-right: 6px;
+  color: #171717;
+  font-size: 11px;
+}
