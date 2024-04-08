@@ -46,7 +46,7 @@ dependencies {
 	// java 유사성
 	implementation group: 'org.apache.commons', name: 'commons-text', version: '1.10.0'
 
-//	// websocket(채팅방)
+	// websocket(채팅방)
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
 	// stomp-websocket DI

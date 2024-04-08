@@ -31,7 +31,7 @@ public class UserController {
     public String signup(@Valid UserCreateForm userCreateForm, BindingResult bindingResult) {
 
         userService.create(userCreateForm.getUsername(),
-                userCreateForm.getEmail(), userCreateForm.getPassword1(), userCreateForm.getPhone());
+                userCreateForm.getEmail(), userCreateForm.getPassword1(), userCreateForm.getPhone(),"");
 
         return "redirect:/";
     }

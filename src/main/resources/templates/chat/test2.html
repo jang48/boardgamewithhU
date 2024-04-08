@@ -11,7 +11,7 @@
     <div style="display : flex; flex-direction: column; height : 100%;">
         <div class="scrollbar" style="height : 80%;">
             <div class="roomName">
-                <div id="msgArea" th:if="${room.name != 'test'}" class="col" style="height : 100px;"></div>
+                <div id="msgArea" class="col" style="height : 100px;"></div>
             </div>
         </div>
         <div class="input-group-append" style="height : 20%; display: flex; flex-direction: column;">
@@ -28,28 +28,48 @@
     <script th:inline="javascript">
         var room = [[${room.name}]];
         var roomNameElement = document.querySelector('.roomName');
-        var messageList =[[${messageList}]];
         var str = '';
         var roomId = [[${room.Id}]];
         var username = [[${#authentication.principal.username}]];
+        var strTime = '';
+
+       function getMessageList() {
+            $.ajax({
+                type: "GET",
+                url: "/chat/message",
+                data: {
+                    roomId: roomId
+                },
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var dateObject = new Date(data[i].time);
+                        strTime = getStrTime(dateObject);
+                        var writer = data[i].writer;
+                        str = ""; // str 변수 초기화
+                        if (writer === username) {
+                            str += "<div class='myChat'>";
+                            str += "<span class='chatTime'>" + strTime + "</span>";
+                            str += "<p class='chatBox'>" + data[i].message + "</p>";
+                            str += "</div></div>";
+                        } else {
+                            str += "<div class='otherChat'>";
+                            str += "<div class='alert alert-warning'>";
+                            str += "<span class='otherBox'>" + data[i].message + "</span>";
+                            str += "<span class='otherTime'>" + strTime + "</span>";
+                            str += "</div></div>";
+                        }
+                        $("#msgArea").append(str);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error fetching message list: " + error);
+                }
+            });
+       }
 
         $(document).ready(function(){
-
            if (!(room != null && room !== '' && room !== "test")) {
                roomNameElement.innerText = '채팅방을 선택해주세요.';
-           }
-
-           if (!writer || !username || writer.trim() === '' || username.trim() === '') {
-                console.error('Writer or username is empty.');
-                return;
-            }
-
-           if(messageList != null){
-                messageList.forEach(function(message) {
-                    var date = new Date(message.time);
-                    getStrTime(date);
-                    showMessage(message,date,message.writer);
-                });
            }
 
            var sockJs = new SockJS("/stomp/chat");
@@ -62,11 +82,11 @@
 
                //4. subscribe(path, callback)으로 메세지를 받을 수 있음
                stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
-                   var now  = new Date(content.time);
                    var content = JSON.parse(chat.body);
+                   var now  = new Date();
                    var writer = content.writer;
-                   getStrTime(now);
-                   showMessage(content,now,writer);
+                   strTime = getStrTime(now);
+                   showMessage(content,writer,strTime);
                });
 
                //3. send(path, header, message)로 메세지를 보낼 수 있음
@@ -77,36 +97,6 @@
            $("#button-send").on("click", function(e) {
                sendMessage();
            });
-
-           function getStrTime(Date nowDate){
-                let hours = nowDate.getHours();
-                let minutes = nowDate.getMinutes();
-                console.log(hours,minutes);
-                let ampm = hours >= 12 ? '오후' : '오전';
-                hours = hours % 12;
-                hours = hours ? hours : 12;
-                minutes = minutes.toString().padStart(2, '0');
-                let strTime = ampm + ' ' + hours + ':' + minutes;
-           }
-
-           function showMessage(content, writer){
-                if(writer === username){
-                   str = "<div class='myChat'>";
-                   str += "<div class='alert alert-secondary'>";
-                   str += "<span class='chatTime'>" + strTime + "</span>";
-                   str += "<span class='chatBox'>" + content.message + "</span>";
-                   str += "</div></div>";
-                   $("#msgArea").append(str);
-               }
-               else{
-                   str = "<div class='otherChat'>";
-                   str += "<div class='alert alert-warning'>";
-                   str += "<span class='otherBox'>" + content.message + "</span>";
-                   str += "<span class='otherTime'>" + strTime + "</span>";
-                   str += "</div></div>";
-                   $("#msgArea").append(str);
-               }
-           }
 
            function sendMessage() {
                var msg = document.getElementById("msg").value;
@@ -125,7 +115,38 @@
                        sendMessage();
                    }
            });
+           getMessageList();
         });
+
+        function showMessage(content, writer, strTime){
+            if(writer === username){
+               str = "<div class='myChat'>";
+               str += "<div class='alert alert-secondary'>";
+               str += "<span class='chatTime'>" + strTime + "</span>";
+               str += "<span class='chatBox'>" + content.message + "</span>";
+               str += "</div></div>";
+               $("#msgArea").append(str);
+           }
+           else{
+               str = "<div class='otherChat'>";
+               str += "<div class='alert alert-warning'>";
+               str += "<span class='otherBox'>" + content.message + "</span>";
+               str += "<span class='otherTime'>" + strTime + "</span>";
+               str += "</div></div>";
+               $("#msgArea").append(str);
+           }
+       }
+
+
+        function getStrTime(nowDate){
+            let hours = nowDate.getHours();
+            let minutes = nowDate.getMinutes();
+            let ampm = hours >= 12 ? '오후' : '오전';
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            minutes = minutes.toString().padStart(2, '0');
+            return ampm + ' ' + hours + ':' + minutes;
+       }
     </script>
 </nav>
 </body>

@@ -26,4 +26,9 @@ public class ChatMessageService {
         List<ChatMessage> messageList = this.chatMessageRepository.findByroomId(RoomId);
         return messageList;
     }
+
+    public List<ChatMessage> findChatMessage(){
+        List<ChatMessage> messageList = this.chatMessageRepository.findAll();
+        return messageList;
+    }
 }
